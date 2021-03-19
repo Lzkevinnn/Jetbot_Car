@@ -20,6 +20,8 @@
     <rosparam command="load" file="$(find jetbotcar)/params.yaml"/>
   </node>
 
+
+
   <!--group if="$(arg run_the_robot)"-->
     <node pkg="jetbotcar" name="motorDriveNode" type="motorDrive.py" output="screen" if="$(arg run_the_robot)">
       <rosparam command="load" file="$(find jetbotcar)/params.yaml"/>

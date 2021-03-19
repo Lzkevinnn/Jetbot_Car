@@ -77,12 +77,23 @@ public:
     void radiusCalc(const std_msgs::Float64 & msg){
         if (msg.data > 0){
             constantRadiusRightWheelSpeed = 1;
-            constantRadiusLeftWheelSpeed = ((msg.data-trackWidth)/(msg.data + trackWidth));
-        }else{
+           
+            constantRadiusLeftWheelSpeed = \
+            ((msg.data-trackWidth)/(msg.data + trackWidth));
+           
+            publish_to_diff_drive(constantRadiusRightWheelSpeed, constantRadiusLeftWheelSpeed);  
+        }else if (msg.data < 0){ 
             constantRadiusLeftWheelSpeed = 1;
-            constantRadiusRightWheelSpeed = ((std::abs(msg.data)-trackWidth)/(std::abs(msg.data) + trackWidth));
+
+            constantRadiusRightWheelSpeed = \
+            ((std::abs(msg.data)-trackWidth)/(std::abs(msg.data) + trackWidth));
+           
+            publish_to_diff_drive(constantRadiusRightWheelSpeed, constantRadiusLeftWheelSpeed);       
+
+        }else{
+            ROS_INFO("enter non-zero turn message");
+
         }
-        ROS_INFO("turn radius topic read");
 
     }
     void publish_to_diff_drive(double rightWheelTrq,double leftWheelTrq)
