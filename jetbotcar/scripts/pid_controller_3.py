@@ -35,6 +35,8 @@ def pidCallback(msg):
     global Setpoint
     global lateralError
     global steeringGain
+    global throttleCmd
+
 
     global kp
     global ki
