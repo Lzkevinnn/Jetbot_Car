@@ -103,6 +103,7 @@ obstacle_size: 2
 joy_topic: "/joy"
 drive_topic: "/drive"
 diff_drive_topic: "/diff_drive"
+jetracer_drive_topic: "/jetracer_drive"
 map_topic: "/map"
 distance_transform_topic: "/dt"
 scan_topic: "/scan"

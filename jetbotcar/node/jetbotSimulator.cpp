@@ -172,7 +172,8 @@ public:
         pose_pub = n.advertise<geometry_msgs::PoseStamped>(gt_pose_topic, 1);
 
         // Start a timer to output the pose
-        update_pose_timer = n.createTimer(ros::Duration(update_pose_rate), &jetbotSimulator::update_pose, this);
+        update_pose_timer = n.createTimer(ros::Duration(update_pose_rate),\
+         &jetbotSimulator::update_pose, this);
 
         // Start a subscriber to listen to drive commands
         drive_sub = n.subscribe(diff_drive_topic, 1, &jetbotSimulator::drive_callback, this);

@@ -1,12 +1,11 @@
 <?xml version="1.0"?>
 <launch>
   <!-- Listen to messages from joysicks -->
-  <node pkg="joy" name="joy_node" type="joy_node"/>
+  <!--node pkg="joy" name="joy_node" type="joy_node"-->
 
   <!-- Launch a map from the maps folder-->
   <arg name="map" default="$(find jetbotcar)/maps/levine.yaml"/>
   <arg name="run_the_robot" default="false"/>
-  <arg name="jetRacer" default="false"/>
   <node pkg="map_server" name="map_server" type="map_server" args="$(arg map)"/>
 
   <!-- Launch the racecar model -->
@@ -16,37 +15,29 @@
   <node pkg="jetbotcar" name="jetbot_simulator" type="jetbotSimulator" output="screen">
     <rosparam command="load" file="$(find jetbotcar)/params.yaml"/>
   </node>
-  
+
   <node pkg="jetbotcar" name="jetDriver" type="jetbotDrivePublisher" output="screen">
     <rosparam command="load" file="$(find jetbotcar)/params.yaml"/>
   </node>
 
 
-  <node pkg="jetbotcar" name="motorDriveNode" type="motorDrive.py" output="screen" if="$(arg run_the_robot)">
-    <rosparam command="load" file="$(find jetbotcar)/params.yaml"/>
-  </node>
-  <node pkg="jetbotcar" name="jetRacerDriveNode" type="jetRacerDrive.py" output="screen" if="$(arg jetRacer)">
+  <node pkg="jetbotcar" name="jetRacerDriveNode" type="jetRacerDrive.py" output="screen" if="$(arg run_the_robot)">
     <rosparam command="load" file="$(find jetbotcar)/params.yaml"/>
   </node>
 
-<!-- test -->
-  <node pkg="jetbotcar" name="talker" type="talker.py" output="screen" if="$(arg run_the_robot)">
+<!-- test  -->
+
+  <node pkg="jetbotcar" name="PIDcontroller" type="pid_controller_5_1.py" output="screen" if="$(arg run_the_robot)">
+    <rosparam command="load" file="$(find jetbotcar)/params.yaml"/>
+  </node>  
+
+  <node pkg="jetbotcar" name="LaneDetection" type="lane_detection_contour_jetracer.py" output="screen" if="$(arg run_the_robot)">
     <rosparam command="load" file="$(find jetbotcar)/params.yaml"/>
   </node>
 
-  <node pkg="jetbotcar" name="listener" type="listener.py" output="screen" if="$(arg run_the_robot)">
-    <rosparam command="load" file="$(find jetbotcar)/params.yaml"/>
-  </node>
-
-
-
-  <!-- Launch the Keyboard Node -->
+<!-- Launch the Keyboard Node -->
   <node pkg="jetbotcar" name="keyboard" type="keyboard" output="screen">
     <rosparam command="load" file="$(find jetbotcar)/params.yaml"/>
   </node>
 
-
-  
-  <!-- Launch RVIZ -->
-    <node pkg="rviz" type="rviz" name="rviz" args="-d $(find jetbotcar)/launch/simulator.rviz" output="screen"/>
 </launch>
